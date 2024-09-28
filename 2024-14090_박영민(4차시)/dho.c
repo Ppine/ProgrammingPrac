@@ -2,6 +2,6 @@
 
 int main()
 {
-    printf("test git real last");
+    printf("a");
     return 0;
 }
