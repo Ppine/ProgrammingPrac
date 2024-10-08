@@ -15,7 +15,7 @@ int main()
     {
         //printf("Dateord change"); //checking change
         dateord = date % 10;
-        dateord --;
+        dateord --;//array start at 0
     }
     else dateord = 3;
 
