@@ -11,11 +11,12 @@ int main()
     scanf("%d/%d/%d",&year,&month,&date);
     //printf("%d %d %d\n",year,month,date);//checking input
 
-     if(date%10 > 0 && date%10<4)//1th,2nd,3rd
+    if(date%10 > 0 && date%10<4)//1st,2nd,3rd
     {
         //printf("Dateord change"); //checking change
         dateord = date % 10;
         dateord --;//array start at 0
+        if(date >= 11 && date <= 20) dateord = 3;
     }
     else dateord = 3;
 
