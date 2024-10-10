@@ -16,7 +16,7 @@ int main()
         //printf("Dateord change"); //checking change
         dateord = date % 10;
         dateord --;//array start at 0
-        if(date >= 11 && date <= 20) dateord = 3;
+        if(date >= 11 && date <= 20) dateord = 3;//11~19 set th
     }
     else dateord = 3;
 
