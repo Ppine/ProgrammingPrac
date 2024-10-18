@@ -1,3 +1,5 @@
+// output example set srand(time(NULL))
+
 #include <stdio.h>
 #include <stdlib.h>
 #define _USE_MATH_DEFINES
