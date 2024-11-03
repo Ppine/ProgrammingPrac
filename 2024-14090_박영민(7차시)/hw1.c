@@ -1,45 +1,51 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
 
 #define MAX 256
 int evaluate(char *line);
 
 int main() {
-    char *line[MAX];
+    char line[MAX];
 
-    // Uncomment the following lines and fill in the right hand side
-    // to read a word from the user
-    // line = 
-    scanf("%s", line);
+    scanf("%s",line);
 
     printf("%d\n", evaluate(line));
     return 0;
 }
 
 int evaluate(char *line) {
-    // TODO: Implement this function
     char *ptr = line;
-    int sum=0;
-    char temp[MAX];
-    int count=0;
-
-    while(1)
+    int sum = 0;
+    int chk=0;
+    int temp=0;
+    for(int i=0; i<strlen(line); i++)
     {
-        if((ptr = strstr(ptr,'+') == NULL) || ((ptr = strstr(ptr,'-') == NULL)))// not +,-
+        if(*ptr == '+')
         {
-            temp[count] = ptr;
-            printf("%d",temp[count]);
-            count++;
+            // printf("eva +\n");
+            chk=0;
+            sum+=temp;
+            temp=0;
+        } 
+        else if(*ptr == '-')
+        {
+            // printf("eva -\n");
+            chk=1;
+            sum+=temp;
+            temp=0;
         }
-        // else if(ptr = strstr(ptr,'+') != NULL)//+
-        // {
-        //     for(int i=0; i<count; i++)
-        //     {
-        //         temp[i]
-        //     }
-        // }
-        if(ptr == '\0') break;
-
+        else
+        {
+            // printf("num\n");
+            temp*=10;
+            if(chk==0) temp+=*ptr-48;
+            else temp-=*ptr-48;
+        }
+        ptr++;
     }
+    sum+=temp;
+
+    return sum;
 }
