@@ -85,7 +85,11 @@ int main()
     while(1)
     {
         scanf("%d",&n);
-        if(n==0) return 0;
+        if(n==0)
+        {
+            free_list(head);
+            return 0;
+        }
         else if(n==1)//append
         {
             scanf("%s %d",name,&score);
