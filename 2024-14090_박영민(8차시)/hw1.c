@@ -6,7 +6,7 @@ typedef struct student
 {
     char name[50];
     int score;
-    struct stu* next;
+    struct student* next;
 }stu;
 
 stu* create(const char *name, int score)
