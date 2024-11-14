@@ -80,7 +80,6 @@ void sort_stu(stu **head, const char sort_by[10], int n)
                 compare = i->age - j->age;
                 if (compare == 0) 
                 {
-                    compare = i->score - j->score;
                     if (compare == 0) compare = strcmp(i->name, j->name);
                 }
             }
@@ -89,7 +88,6 @@ void sort_stu(stu **head, const char sort_by[10], int n)
                 compare = i->score - j->score;
                 if (compare == 0) 
                 {
-                    compare = i->age - j->age;
                     if (compare == 0) compare = strcmp(i->name, j->name);
                 }
             }
@@ -136,3 +134,10 @@ int main()
 
     return 0;
 }
+
+// 4
+// Alice 21 56
+// Bob 23 78
+// Chris 25 56
+// Daisy 23 45
+// age 0
