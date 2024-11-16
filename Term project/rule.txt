@@ -1,0 +1,7 @@
+렌주 룰 정리
+
+1. 시작은 흑돌 The player with the black stones begins the game.
+2. 흑돌 첫 수는 무조건 중간 The first move has to be made to the center of the board.
+3. 흑돌은 33 불가 (열린 3) Black player is not allowed to make the 3x3 fork.
+4. 흑돌은 44도 불가 (열린 4) Black player is not allowed to make the 4x4 fork.
+5. 흑돌은 6개 이상이 연결되는 것도 불가 Black player is not allowed to make an overline (6 or more stones in a row)
