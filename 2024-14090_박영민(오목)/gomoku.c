@@ -121,7 +121,7 @@ int checkFork(int x, int y, int *player)
             int openEnds = 0;  
 
             // Check in one direction
-            for (int step = 1; step < 5; step++) {
+            for (int step = 1; step < SIZE; step++) {
                 int nx = x + step * dx[dir];
                 int ny = y + step * dy[dir];
                 if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE) {
@@ -137,7 +137,7 @@ int checkFork(int x, int y, int *player)
             }
 
             // Check in the opposite direction
-            for (int step = 1; step < 5; step++) {
+            for (int step = 1; step < SIZE; step++) {
                 int nx = x - step * dx[dir];
                 int ny = y - step * dy[dir];
                 if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE) {
@@ -150,6 +150,11 @@ int checkFork(int x, int y, int *player)
                         break;
                     }
                 }
+            }
+
+            if(count > 5) // 6stones in a row
+            {
+                return 1;
             }
 
             // open three
