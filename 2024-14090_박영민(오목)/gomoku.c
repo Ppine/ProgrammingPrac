@@ -13,7 +13,7 @@ void clearScreen()
     #ifdef _WIN32
         system("cls");    // Windows
     #else
-        system("clear");  // Ubuntu, macOS
+        // system("clear");  // Ubuntu, macOS
     #endif
 }
 
@@ -143,7 +143,7 @@ int checkFork(int x, int y, int *player)
             int openEnds = 0;  
 
             // Check in one direction
-            for (int step = 1; step < SIZE; step++)
+            for (int step = 1; step < 5; step++)
             {
                 int nx = x + step * dx[dir];
                 int ny = y + step * dy[dir];
@@ -206,9 +206,10 @@ int checkFork(int x, int y, int *player)
         // open three -> forbidden move
         if (forkCount3 >= 2 || forkCount4 >= 2) 
         {
+            printf("Player: %d, ForkCount3: %d, ForkCount4: %d. Forbidden move.\n", *player, forkCount3, forkCount4);
             return 1;
         }
-
+        printf("Player: %d, ForkCount3: %d, ForkCount4: %d. Move allwoed.\n", *player, forkCount3, forkCount4);
         return 0; 
     }
 }
@@ -232,7 +233,7 @@ void playGame() {
 
         // Convert input coordinates to board indices
         if (!convertInput(col, row, &x, &y,&turn) || board[x][y] != '.') {
-            clearScreen();  // Clear the screen
+            clearScreen();
             printf("Invalid move. Try again.\n");
             continue;
         }
