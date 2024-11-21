@@ -132,6 +132,7 @@ int checkFork(int x, int y, int *player)
     }
     else // player black
     {
+        int tempcount;
         int checkblank;
         int dx[] = {1, 0, 1, 1};
         int dy[] = {0, 1, 1, -1};
@@ -140,6 +141,7 @@ int checkFork(int x, int y, int *player)
 
         for (int dir = 0; dir < 4; dir++) 
         {
+            tempcount = 0;
             int count = 1; 
             int openEnds = 0;  
             checkblank=1;
@@ -162,7 +164,10 @@ int checkFork(int x, int y, int *player)
                     {
                         openEnds++;
                         // printf("one openEnds %d\n",openEnds);
-                        break;
+                        tempcount++;
+                        printf("detect blank\n");
+                        if(tempcount > 1) break;
+                        // break;
                     } 
                     else 
                     {
@@ -188,7 +193,10 @@ int checkFork(int x, int y, int *player)
                     {
                         openEnds++;
                         // printf("other openEnds %d\n",openEnds);
-                        break;
+                        tempcount++;
+                        printf("DETECT BLANK\n");
+                        if(tempcount > 1) break;
+                        // break;
                     } 
                     else 
                     {
