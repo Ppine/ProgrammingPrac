@@ -13,7 +13,7 @@ void clearScreen()
     #ifdef _WIN32
         system("cls");    // Windows
     #else
-        system("clear");  // Ubuntu, macOS
+        // system("clear");  // Ubuntu, macOS
     #endif
 }
 
@@ -61,8 +61,8 @@ int convertInput(char col, int row, int *x, int *y, int *cnt)
     {
         return 0; // first move has to be made to the center of the board
     }
-    *x = row - 1;
-    *y = col - 'A';
+    *x = row - 1; //2행
+    *y = col - 'A'; //0열
     return 1;
 }
 
@@ -132,6 +132,7 @@ int checkFork(int x, int y, int *player)
     }
     else // player black
     {
+        int checkblank;
         int dx[] = {1, 0, 1, 1};
         int dy[] = {0, 1, 1, -1};
         int forkCount3 = 0;  
@@ -141,21 +142,26 @@ int checkFork(int x, int y, int *player)
         {
             int count = 1; 
             int openEnds = 0;  
-
+            checkblank=1;
             // Check in one direction
-            for (int step = 1; step < 5; step++)
-            {
-                int nx = x + step * dx[dir];
-                int ny = y + step * dy[dir];
+            for (int step = 1; step < SIZE; step++)
+            {//e2
+                checkblank++;
+                int nx = x + step * dx[dir]; //x=2
+                int ny = y + step * dy[dir]; //y=4
                 if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE)
                 {
+                    // printf("one direction %d %d\n",ny,nx);
                     if (board[nx][ny] == 'O') 
                     {
                         count++;
+                        checkblank++;
+                        // printf("one count %d\n",count);
                     } 
                     else if (board[nx][ny] == '.') 
                     {
                         openEnds++;
+                        // printf("one openEnds %d\n",openEnds);
                         break;
                     } 
                     else 
@@ -170,15 +176,18 @@ int checkFork(int x, int y, int *player)
             {
                 int nx = x - step * dx[dir];
                 int ny = y - step * dy[dir];
+                // printf("other direction %d %d\n",ny,nx);
                 if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE) 
                 {
                     if (board[nx][ny] == 'O') 
                     {
                         count++;
+                        // printf("other count %d\n",count);
                     } 
                     else if (board[nx][ny] == '.') 
                     {
                         openEnds++;
+                        // printf("other openEnds %d\n",openEnds);
                         break;
                     } 
                     else 
@@ -232,20 +241,26 @@ void playGame() {
         col = toupper(col);  // Convert to uppercase
 
         // Convert input coordinates to board indices
-        if (!convertInput(col, row, &x, &y,&turn) || board[x][y] != '.') {
+        if (!convertInput(col, row, &x, &y,&turn) || board[x][y] != '.') // check duplication or out of board
+        {
+            
             clearScreen();
             printf("Invalid move. Try again.\n");
             continue;
         }
+         // Place the stone
+        board[x][y] = (player == 1) ? 'O' : 'X';
         if(checkFork(x, y, &player))
         {
+            // Return the stone
+            board[x][y] = '.';
             clearScreen();
             printf("Invalid move(fork). Try again\n");
             continue;
         }
 
-        // Place the stone
-        board[x][y] = (player == 1) ? 'O' : 'X';
+        // // Place the stone
+        // board[x][y] = (player == 1) ? 'O' : 'X';
 
         // Check for victory condition
         if (checkWin(x, y, &player)) 
@@ -280,3 +295,6 @@ int main()
 
 // 마지막수 가능
 // h8 k1 b12 k2 b13 k3 d13 n1 d14 n2 c13 XX
+
+// 그러니까 지금 문제는 돌과 돌 사이가 떨어져있을 때 break로 인해서 그게 체크가 안 되고 넘어가는 상황인거임.
+// 그래서 케이스3 에서 e2가 가능하다고 체크됨 왜냐? .만나서 그 뒤의 돌 숫자를 안 세거든.
