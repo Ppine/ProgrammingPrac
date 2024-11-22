@@ -154,13 +154,13 @@ int checkFork(int x, int y, int *player)
                 int ny = y + step * dy[dir]; //y=4
                 if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE)
                 {
-                    printf("one direction %d %d\n",ny,nx);
+                    printf("one direction %d %d\n",nx,ny);
                     if (board[nx][ny] == 'O') 
                     {
                         count++;
                         checkblank++;
                         printf("one count %d\n",count);
-                    } 
+                    }
                     else if (board[nx][ny] == '.') 
                     {
                         openEnds++;
@@ -168,7 +168,7 @@ int checkFork(int x, int y, int *player)
                         tempcount++;
                         printf("detect blank\n");
                         printf("tempcount = %d\n",tempcount);
-                        if(tempcount > 1)
+                        if(tempcount > 1 || (tempcount == 1 && count <=3 && (nx == 0 || ny ==0)))
                         {
                             openEnds--;
                             break;
@@ -187,9 +187,9 @@ int checkFork(int x, int y, int *player)
             {
                 int nx = x - step * dx[dir];
                 int ny = y - step * dy[dir];
-                printf("other direction %d %d\n",ny,nx);
                 if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE)
                 {
+                    printf("other direction %d %d\n",nx,ny);
                     if (board[nx][ny] == 'O')
                     {
                         count++;
@@ -202,7 +202,7 @@ int checkFork(int x, int y, int *player)
                         tempcount++;
                         printf("DETECT BLANK\n");
                         printf("tempcount = %d \n",tempcount);
-                        if(tempcount > 1)
+                        if(tempcount > 1 || (tempcount == 1 && count <= 3 && (nx == 0 || ny ==0)))
                         {
                             openEnds--;
                             break;
@@ -316,7 +316,7 @@ int main()
 // h8 n1 b6 k4 b7 l9 b10 j8 b12 i3 b13 k5 b9 00
 
 // 마지막수 가능
-// h8 k1 b12 k2 b13 k3 d13 n1 d14 n2 c13 XX
+// h8 k1 b12 k2 b13 k3 d13 n1 d14 n2 c13 00
 
 // 그러니까 지금 문제는 돌과 돌 사이가 떨어져있을 때 break로 인해서 그게 체크가 안 되고 넘어가는 상황인거임.
 // 그래서 케이스3 에서 e2가 가능하다고 체크됨 왜냐? 만나서 그 뒤의 돌 숫자를 안 세거든.
