@@ -63,6 +63,7 @@ int convertInput(char col, int row, int *x, int *y, int *cnt)
     }
     *x = row - 1; //2행
     *y = col - 'A'; //0열
+    printf("x = %d y=%d\n",*x,*y);
     return 1;
 }
 
@@ -153,20 +154,25 @@ int checkFork(int x, int y, int *player)
                 int ny = y + step * dy[dir]; //y=4
                 if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE)
                 {
-                    // printf("one direction %d %d\n",ny,nx);
+                    printf("one direction %d %d\n",ny,nx);
                     if (board[nx][ny] == 'O') 
                     {
                         count++;
                         checkblank++;
-                        // printf("one count %d\n",count);
+                        printf("one count %d\n",count);
                     } 
                     else if (board[nx][ny] == '.') 
                     {
                         openEnds++;
-                        // printf("one openEnds %d\n",openEnds);
+                        printf("one openEnds %d\n",openEnds);
                         tempcount++;
                         printf("detect blank\n");
-                        if(tempcount > 1) break;
+                        printf("tempcount = %d\n",tempcount);
+                        if(tempcount > 1)
+                        {
+                            openEnds--;
+                            break;
+                        }
                         // break;
                     } 
                     else 
@@ -175,27 +181,32 @@ int checkFork(int x, int y, int *player)
                     }
                 }
             }
-
+            tempcount = 0;
             // Check in the opposite direction
-            for (int step = 1; step < SIZE; step++) 
+            for (int step = 1; step < SIZE; step++)
             {
                 int nx = x - step * dx[dir];
                 int ny = y - step * dy[dir];
-                // printf("other direction %d %d\n",ny,nx);
-                if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE) 
+                printf("other direction %d %d\n",ny,nx);
+                if (nx >= 0 && nx < SIZE && ny >= 0 && ny < SIZE)
                 {
-                    if (board[nx][ny] == 'O') 
+                    if (board[nx][ny] == 'O')
                     {
                         count++;
-                        // printf("other count %d\n",count);
-                    } 
-                    else if (board[nx][ny] == '.') 
+                        printf("other count %d\n",count);
+                    }
+                    else if (board[nx][ny] == '.')
                     {
                         openEnds++;
-                        // printf("other openEnds %d\n",openEnds);
+                        printf("other openEnds %d\n",openEnds);
                         tempcount++;
                         printf("DETECT BLANK\n");
-                        if(tempcount > 1) break;
+                        printf("tempcount = %d \n",tempcount);
+                        if(tempcount > 1)
+                        {
+                            openEnds--;
+                            break;
+                        }
                         // break;
                     } 
                     else 
@@ -209,10 +220,12 @@ int checkFork(int x, int y, int *player)
             if (count == 3 && openEnds == 2) 
             {
                 forkCount3++;
+                printf("forkcount3++\n");
             }
             if(count == 4 && openEnds >=1)
             {
                 forkCount4++;
+                printf("forkcount4++\n");
             }
 
             if(count > 5) // 6stones in a row
@@ -221,7 +234,7 @@ int checkFork(int x, int y, int *player)
             }
         }
         // open three -> forbidden move
-        if (forkCount3 >= 2 || forkCount4 >= 2) 
+        if (forkCount3 >= 2 || forkCount4 >= 2)
         {
             printf("Player: %d, ForkCount3: %d, ForkCount4: %d. Forbidden move.\n", *player, forkCount3, forkCount4);
             return 1;
@@ -232,7 +245,8 @@ int checkFork(int x, int y, int *player)
 }
 
 // Play the game
-void playGame() {
+void playGame()
+{
     char col;
     int row, x, y;
     clearScreen();  // Clear the screen
@@ -295,14 +309,14 @@ int main()
 
 
 // 마지막수 금수
-// h8 h7 h10 i6 g8 i8 g6 i7 i9 f7 j7 e7 g7 00
-// h8 a1 i8 a2 j8 a3 e8 b1 f8 c1 g8 00
-// h8 n1 a6 n2 b5 m1 c4 l1 e4 e6 e5 n3 e3 l2 e2 XX
-// h8 a1 i7 b1 j7 c1 j8 a2 j6 00
-// b6 k4 b7 l9 b10 j8 b12 i3 b13 k5 b9 XX
+// h8 h7 h10 i6 g8 i8 g6 i7 i9 f7 j7 e7 g7 00 33fork
+// h8 a1 i8 a2 j8 a3 e8 b1 f8 c1 g8 00 6목
+// h8 n1 a6 n2 b5 m1 c4 l1 e4 e6 e5 n3 e3 l2 e2 00 44fork
+// h8 a1 i7 b1 j7 c1 j8 a2 j6 00 33fork
+// h8 n1 b6 k4 b7 l9 b10 j8 b12 i3 b13 k5 b9 00
 
 // 마지막수 가능
 // h8 k1 b12 k2 b13 k3 d13 n1 d14 n2 c13 XX
 
 // 그러니까 지금 문제는 돌과 돌 사이가 떨어져있을 때 break로 인해서 그게 체크가 안 되고 넘어가는 상황인거임.
-// 그래서 케이스3 에서 e2가 가능하다고 체크됨 왜냐? .만나서 그 뒤의 돌 숫자를 안 세거든.
+// 그래서 케이스3 에서 e2가 가능하다고 체크됨 왜냐? 만나서 그 뒤의 돌 숫자를 안 세거든.
