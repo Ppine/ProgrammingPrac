@@ -168,7 +168,7 @@ int checkFork(int x, int y, int *player)
                         tempcount++;
                         printf("detect blank\n");
                         printf("tempcount = %d\n",tempcount);
-                        if(tempcount > 1 || (tempcount == 1 && count <=3 && (nx == 0 || ny ==0)))
+                        if(tempcount > 1 || (tempcount == 1 && count <=3 && ((nx == 0 && x!=0) || (ny ==0 && y!=0) || (nx == 14 && nx!=14) || (ny == 14 && y!=14))))
                         {
                             openEnds--;
                             break;
@@ -202,7 +202,7 @@ int checkFork(int x, int y, int *player)
                         tempcount++;
                         printf("DETECT BLANK\n");
                         printf("tempcount = %d \n",tempcount);
-                        if(tempcount > 1 || (tempcount == 1 && count <= 3 && (nx == 0 || ny ==0)))
+                        if(tempcount > 1 || (tempcount == 1 && count <= 3 && ((nx == 0 && x!=0) || (ny ==0 && y!=0) || (nx == 14 && nx!=14) || (ny == 14 && y!=14))))
                         {
                             openEnds--;
                             break;
@@ -314,6 +314,7 @@ int main()
 // h8 n1 a6 n2 b5 m1 c4 l1 e4 e6 e5 n3 e3 l2 e2 00 44fork
 // h8 a1 i7 b1 j7 c1 j8 a2 j6 00 33fork
 // h8 n1 b6 k4 b7 l9 b10 j8 b12 i3 b13 k5 b9 00
+// h8 a1 j1 a2 m1 a3 n1 a4 m3 b1 n4 b2 o5 b3 k1 00
 
 // 마지막수 가능
 // h8 k1 b12 k2 b13 k3 d13 n1 d14 n2 c13 00
