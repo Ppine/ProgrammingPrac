@@ -139,9 +139,15 @@ int checkFork(int x, int y, int *player)
         int dy[] = {0, 1, 1, -1};
         int forkCount3 = 0;  
         int forkCount4 = 0;
+        int tempblank=0; // checking blank location is between the stones
+        int onecount = 0;
+        int tempnx, tempny;
+        int detect = 0;
 
         for (int dir = 0; dir < 4; dir++) 
         {
+            detect = 0;
+            tempblank = 0;
             tempcount = 0;
             int count = 1; 
             int openEnds = 0;  
@@ -170,18 +176,24 @@ int checkFork(int x, int y, int *player)
                         printf("tempcount = %d\n",tempcount);
                         if(tempcount > 1 || (tempcount == 1 && count <=3 && ((nx == 0 && x!=0) || (ny ==0 && y!=0) || (nx == 14 && nx!=14) || (ny == 14 && y!=14))))
                         {
+                            printf("add tempblank\n");
+                            tempnx = nx;
+                            tempny = ny;
+                            tempblank++;
+                            detect = 1;
                             openEnds--;
                             break;
                         }
                         // break;
-                    } 
+                    }
                     else 
                     {
                         break;
                     }
                 }
             }
-            tempcount = 0;
+            tempblank = 0;
+            onecount = count;
             // Check in the opposite direction
             for (int step = 1; step < SIZE; step++)
             {
@@ -204,8 +216,15 @@ int checkFork(int x, int y, int *player)
                         printf("tempcount = %d \n",tempcount);
                         if(tempcount > 1 || (tempcount == 1 && count <= 3 && ((nx == 0 && x!=0) || (ny ==0 && y!=0) || (nx == 14 && nx!=14) || (ny == 14 && y!=14))))
                         {
+                            printf("if code detect,tempblank++\n");
+                            tempblank++;
                             openEnds--;
                             break;
+                        }
+                        if((detect > 0) && (onecount <= count)) // 돌아온 이후에 다시 돌을 감지한 경우
+                        {
+                            board[tempnx][tempny] = 'O';
+                            printf("==================temp loacation %d %d\n",nx,ny);
                         }
                         // break;
                     } 
@@ -239,7 +258,7 @@ int checkFork(int x, int y, int *player)
             printf("Player: %d, ForkCount3: %d, ForkCount4: %d. Forbidden move.\n", *player, forkCount3, forkCount4);
             return 1;
         }
-        printf("Player: %d, ForkCount3: %d, ForkCount4: %d. Move allwoed.\n", *player, forkCount3, forkCount4);
+        printf("Player: %d, ForkCount3: %d, ForkCount4: %d. onecount = %d tempblank = %d Move allwoed.\n", *player, forkCount3, forkCount4, onecount, tempblank);
         return 0; 
     }
 }
@@ -315,9 +334,12 @@ int main()
 // h8 a1 i7 b1 j7 c1 j8 a2 j6 00 33fork
 // h8 n1 b6 k4 b7 l9 b10 j8 b12 i3 b13 k5 b9 00
 // h8 a1 j1 a2 m1 a3 n1 a4 m3 b1 n4 b2 o5 b3 k1 00
+// h8 a1 h13 a2 f13 a3 j13 a4 l13 b1 i13 XX
 
 // 마지막수 가능
 // h8 k1 b12 k2 b13 k3 d13 n1 d14 n2 c13 00
 
 // 그러니까 지금 문제는 돌과 돌 사이가 떨어져있을 때 break로 인해서 그게 체크가 안 되고 넘어가는 상황인거임.
 // 그래서 케이스3 에서 e2가 가능하다고 체크됨 왜냐? 만나서 그 뒤의 돌 숫자를 안 세거든.
+
+// 탐색 방향 하 상 우 좌 우하 좌상 좌하 우상
