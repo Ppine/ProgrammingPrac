@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int check = 0;
 
 typedef struct tNode
 {
@@ -9,6 +8,13 @@ typedef struct tNode
     struct tNode *left;
     struct tNode *right;
 }treeNode;
+
+typedef struct queueNode_t
+{
+    treeNode *tree_node;
+    int depth;
+    struct queueNode_t *next;
+}QueueNode;
 
 treeNode *insertNode(treeNode *root, int value)
 {
@@ -36,61 +42,105 @@ treeNode *insertNode(treeNode *root, int value)
     return root; 
 }
 
-treeNode *findNode(treeNode *root, int value)
+void enqueue(QueueNode **front, QueueNode **rear, treeNode *tree_node, int depth)
 {
-    if(!root)
+    QueueNode *newNode = (QueueNode *)malloc(sizeof(QueueNode));
+    newNode->tree_node = tree_node;
+    newNode->depth = depth;
+    newNode->next = NULL;
+    if (*rear)
     {
-        printf("-1\n");
-        check ++;
-        return NULL;
-    }
-    if(root->value == value)
-    {
-        // printf("find value %d location\n",root);
-        return root;
+        (*rear)->next = newNode;
     }
     else
     {
-        if(root -> value > value)
-        {
-            return findNode(root->left, value);
-        }
-        else
-        {
-            return findNode(root->right, value);
-        }        
+        *front = newNode;
     }
-
+    *rear = newNode;
 }
 
-treeNode *findLCA(treeNode *root, treeNode *firstnum, treeNode *secondnum)
+
+QueueNode *dequeue(QueueNode **front, QueueNode **rear) 
 {
-    if(!firstnum || !secondnum || !root)
+    if (*front == NULL)
     {
-        return root;
+        return NULL;
     }
-    if(root->value > firstnum->value && root->value > secondnum->value)
+    QueueNode *temp = *front;
+    *front = (*front)->next;
+    if (*front == NULL)
     {
-        return findLCA(root->left,firstnum,secondnum);
+        *rear = NULL;
     }
-    if(root->value < firstnum->value && root->value < secondnum->value)
+    return temp;
+}
+
+
+void BFS(treeNode *root)
+{
+    if (root == NULL) return;
+
+    QueueNode *front = NULL, *rear = NULL;
+    enqueue(&front, &rear, root, 0);
+
+    int depth = 0;
+    int min = 99999, max = -99999;
+
+    printf("%d ", depth); 
+
+    while (front != NULL)
     {
-        return findLCA(root->right,firstnum,secondnum);
+        QueueNode *node = dequeue(&front, &rear);
+        treeNode *tree_node = node->tree_node;
+
+        if (node->depth != depth)
+        {
+            printf("%d %d\n", min, max);
+
+            depth = node->depth;
+            min = 99999;
+            max = -99999;
+
+            printf("%d ", depth);
+        }
+
+        if (tree_node->value < min)
+        {
+            min = tree_node->value;
+        }
+        if (tree_node->value > max)
+        {
+            max = tree_node->value;
+        }
+
+        if (tree_node->left)
+        {
+            enqueue(&front, &rear, tree_node->left, node->depth + 1);
+        }
+        if (tree_node->right)
+        {
+            enqueue(&front, &rear, tree_node->right, node->depth + 1);
+        }
+
+        free(node); 
     }
-    return root;
+
+    printf("%d %d\n", min, max);
 }
 
 int main()
 {
     treeNode* tree = NULL;
     int n,num;
-    int n1,n2;
+    int depth;
     scanf("%d",&n);
     for(int i=0; i<n; i++)
     {
         scanf("%d",&num);
         tree = insertNode(tree,num);
     }
+
+    BFS(tree);
 
     return 0;
 }
