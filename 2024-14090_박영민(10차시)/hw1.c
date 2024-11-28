@@ -1,13 +1,18 @@
 #include <stdio.h>
-#define GRAVITY 9.8
-#define SPEED_OF_SOUND 343
-#define MAX_LEVEL 10
-#define MY_PI 3.14
+#define SIZE 5
+#define INIT_ARRAY(arr, val) for (int i = 0; i < SIZE; i++) arr[i] = val
+#define SUM_ARRAY(arr,sum) for(int i=0; i<SIZE; i++) sum+=arr[i]
 
 int main() {
-    printf("Gravity: %.1f m/s^2\n", GRAVITY);
-    printf("Speed of sound: %d m/s\n", SPEED_OF_SOUND);
-    printf("Max level in the game: %d\n", MAX_LEVEL);
-    printf("3 PI: %lf\n", 3*MY_PI);
+    int array[SIZE];
+    int sum=0;
+    INIT_ARRAY(array, 10);
+
+    for (int i = 0; i < SIZE; i++)
+    {
+        printf("array[%d] = %d\n", i, array[i]);
+    }
+    SUM_ARRAY(array,sum);
+    printf("\nSum of array : %d",sum);
     return 0;
 }
