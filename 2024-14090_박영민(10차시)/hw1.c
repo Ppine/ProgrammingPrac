@@ -1,18 +1,32 @@
 #include <stdio.h>
-#define SIZE 5
-#define INIT_ARRAY(arr, val) for (int i = 0; i < SIZE; i++) arr[i] = val
-#define SUM_ARRAY(arr,sum) for(int i=0; i<SIZE; i++) sum+=arr[i]
+#include <stdlib.h>
+#include <time.h>
+#define SIZE 10
+#define RANDOM_INT(min,max) (rand() % ((max)-(min) + 1) + (min))
 
 int main() {
-    int array[SIZE];
-    int sum=0;
-    INIT_ARRAY(array, 10);
+    srand(time(NULL));
+    int guess = RANDOM_INT(1,100);
+    int n;
 
-    for (int i = 0; i < SIZE; i++)
+    while(1)
     {
-        printf("array[%d] = %d\n", i, array[i]);
+        printf("Guess: ");
+        scanf("%d",&n);
+        if(n==guess)
+        {
+            printf("correct\n");
+            return 0;
+        }
+        else if(n>guess)
+        {
+            printf("down\n");
+        }
+        else
+        {
+            printf("up\n");
+        }
     }
-    SUM_ARRAY(array,sum);
-    printf("\nSum of array : %d",sum);
+
     return 0;
 }
