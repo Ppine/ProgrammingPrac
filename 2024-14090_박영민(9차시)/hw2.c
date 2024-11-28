@@ -80,52 +80,17 @@ treeNode *findLCA(treeNode *root, treeNode *firstnum, treeNode *secondnum)
     return root;
 }
 
-int calculateDistance(treeNode *root, treeNode *target, int dist)
-{
-    if (root == NULL) return -1; // 타겟을 찾을 수 없을 때
-    if (root->value == target->value) return dist;
-
-    if (target->value < root->value) return calculateDistance(root->left, target, dist + 1);
-    else return calculateDistance(root->right, target, dist + 1);
-}
-
-int distance(treeNode *root, treeNode *firstnum, treeNode *secondnum)
-{
-    treeNode *lca = findLCA(root, firstnum, secondnum);
-    int dis1 = calculateDistance(lca, firstnum, 0);
-    int dis2 = calculateDistance(lca, secondnum, 0);
-
-    return dis1 + dis2;
-}
-
 int main()
 {
     treeNode* tree = NULL;
-    treeNode* first = NULL;
-    treeNode* second = NULL;
     int n,num;
     int n1,n2;
-    int dis;
     scanf("%d",&n);
     for(int i=0; i<n; i++)
     {
         scanf("%d",&num);
         tree = insertNode(tree,num);
     }
-    scanf("%d %d",&n1,&n2);
-    // printf("n1 start\n");
-    first = findNode(tree,n1);
-    if(check != 0) return 0; // fin program
-    // printf("n2 start\n");
-    second = findNode(tree,n2);
-    if(check != 0) return 0; // fin program
-    // printf("n2 fin");
-    // printf("location %d %d %d\n",first,second,tree);
-    // printf("start calculate\n");
-
-    dis = distance(tree,first,second);
-    // printf("dis fin\n");
-    printf("%d",dis);
 
     return 0;
 }
