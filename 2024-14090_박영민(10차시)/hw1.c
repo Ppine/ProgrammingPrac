@@ -1,32 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+
+// XOR 같으면 0 다르면 1
+
 #define SIZE 10
-#define RANDOM_INT(min,max) (rand() % ((max)-(min) + 1) + (min))
+#define swap(x,y) (x^=y), (y^=x), (x^=y)
 
-int main() {
-    srand(time(NULL));
-    int guess = RANDOM_INT(1,100);
-    int n;
+int main()
+{
+    int a,b;
 
-    while(1)
-    {
-        printf("Guess: ");
-        scanf("%d",&n);
-        if(n==guess)
-        {
-            printf("correct\n");
-            return 0;
-        }
-        else if(n>guess)
-        {
-            printf("down\n");
-        }
-        else
-        {
-            printf("up\n");
-        }
-    }
+    scanf("%d %d",&a,&b);
+    swap(a,b);
+    printf("%d %d",a,b);
 
     return 0;
 }
