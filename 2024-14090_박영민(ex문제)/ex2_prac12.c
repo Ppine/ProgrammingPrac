@@ -7,27 +7,19 @@ int main()
 {
     int arr[12]={0,};
     for(int i=0; i<10; i++) scanf("%d",&arr[i]);
-    int temp;
-    int cnt=0;
-    int tempcnt=0;
-    int max=0;
-    int tempmax=0;
+    int cnt=1;
+    int max=1;
     for(int i=0; i<10; i++)
     {
-        temp = arr[i+1];
-        if(arr[i]+1 == temp)
+        if(arr[i+1] - arr[i] == 1)
         {
-            tempmax = temp;
             cnt++;
         }
         else
         {
-            if(cnt>=tempcnt)
-            {
-                max = tempmax;
-            }
-            cnt=0;
+            cnt=1;
         }
+        if(cnt > max) max=cnt;
     }
 
     printf("%d",max);
